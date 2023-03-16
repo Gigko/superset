@@ -53,6 +53,24 @@ class superset::install {
     venv_dir   => $superset_venv_dir,
     systempkgs => false,
   }
+  
+  # Update pip before install
+  python::pip { 'pip':
+      ensure     => 'latest',
+      pkgname    => 'pip',
+      virtualenv => $superset_venv_dir,
+      owner      => $superset::user,
+      group      => $superset::user,
+  }
+
+  # Update wheel before install
+  python::pip { 'wheel':
+      ensure     => 'latest',
+      pkgname    => 'wheel',
+      virtualenv => $superset_venv_dir,
+      owner      => $superset::user,
+      group      => $superset::user,
+  }
 
   # Install apache superset
   python::pip { 'apache-superset':
